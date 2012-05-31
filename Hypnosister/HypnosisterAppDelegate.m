@@ -25,7 +25,7 @@
 	[self.window addSubview:hypnosisterView];
 	
 	// Create a second Hypnosister view and add it to the view hierarchy
-	CGRect anotherViewFrame = CGRectMake(10, 10, 50, 50);
+	CGRect anotherViewFrame = CGRectMake(10, 10, 75, 75);
 	HypnosisterView *anotherHypnosisterView = [[HypnosisterView alloc] initWithFrame:anotherViewFrame andColor:Nil];
 //	[anotherHypnosisterView setBackgroundColor:[UIColor blueColor]];
 	[hypnosisterView addSubview:anotherHypnosisterView];

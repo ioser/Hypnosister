@@ -52,20 +52,22 @@
 	center.y = bounds.origin.y + bounds.size.height / 2.0;
 	
 	// Calculate the max radius
-	float maxRadius = hypot(bounds.size.width, bounds.size.height) / 4.0;
+	float maxRadius = hypot(bounds.size.width, bounds.size.height) / 2.0;
 	
 	// Set the line width
 	CGContextSetLineWidth(ctx, 10.0);
 	
 	// Set the pen color to be gray
-	CGContextSetRGBStrokeColor(ctx, 0.6, 0.6, 0.6, 1.0);
 	CGContextSetStrokeColorWithColor(ctx, [self.lineColor CGColor]);
 	
-	// Add our shape to the drawing context
-	CGContextAddArc(ctx, center.x, center.y, maxRadius, 0.0, M_PI * 2.0, YES);
+	for (float currentRadius = maxRadius; currentRadius > 0; currentRadius -= 20) {
+		// Add our shape to the drawing context
+		CGContextAddArc(ctx, center.x, center.y, currentRadius, 0.0, M_PI * 2.0, YES);
+		
+		// Perform the actual drawing
+		CGContextStrokePath(ctx);
+	}
 	
-	// Perform the actual drawing
-	CGContextStrokePath(ctx);
 }
 
 @end
