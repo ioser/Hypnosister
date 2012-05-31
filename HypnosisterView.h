@@ -10,4 +10,8 @@
 
 @interface HypnosisterView : UIView
 
+@property (strong, nonatomic) UIColor *lineColor;
+
+- (id)initWithFrame:(CGRect)frame andColor:(UIColor *)color;
+
 @end

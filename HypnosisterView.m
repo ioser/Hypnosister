@@ -10,6 +10,37 @@
 
 @implementation HypnosisterView
 
+@synthesize lineColor = _lineColor;
+
+//OVERRIDE
+- (id)initWithFrame:(CGRect)frame
+{
+	self = [super initWithFrame:frame];
+
+	if (self) {
+		// All Hypnosister views start with a clear color background
+		[self setBackgroundColor:[UIColor clearColor]];		
+	}
+	
+	return self;
+}
+
+- (id)initWithFrame:(CGRect)frame andColor:(UIColor *)color
+{
+	self = [self initWithFrame:frame];
+	
+	if (self) {
+		self.lineColor = color;
+		
+		if (self.lineColor == Nil) {
+			self.lineColor = [UIColor blackColor];
+		}
+	}
+	
+	return self;
+}
+
+//OVERRIDE
 - (void)drawRect:(CGRect)rect
 {
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -28,6 +59,7 @@
 	
 	// Set the pen color to be gray
 	CGContextSetRGBStrokeColor(ctx, 0.6, 0.6, 0.6, 1.0);
+	CGContextSetStrokeColorWithColor(ctx, [self.lineColor CGColor]);
 	
 	// Add our shape to the drawing context
 	CGContextAddArc(ctx, center.x, center.y, maxRadius, 0.0, M_PI * 2.0, YES);
