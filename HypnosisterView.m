@@ -11,6 +11,7 @@
 @implementation HypnosisterView
 
 @synthesize lineColor = _lineColor;
+@synthesize text = _text;
 
 //OVERRIDE
 - (id)initWithFrame:(CGRect)frame
@@ -35,9 +36,37 @@
 		if (self.lineColor == Nil) {
 			self.lineColor = [UIColor blackColor];
 		}
+		
+		self.text = @"Hello, world!";
 	}
 	
 	return self;
+}
+
+- (void)drawMessage:(CGContextRef)ctx atPoint:(CGPoint)center withShadow:(BOOL)shadow
+{
+	// Get a font to draw it in
+	UIFont *font = [UIFont boldSystemFontOfSize:28];
+	CGRect textRect;
+	
+	// How big is this string when drawn in this font?
+	textRect.size = [self.text sizeWithFont:font];
+	
+	// Let's put that string in the center of the view
+	textRect.origin.x = center.x - textRect.size.width / 2.0;
+	textRect.origin.y = center.y - textRect.size.height / 2.0;
+	
+	// Set the fill color of the current context to black
+	[[UIColor blackColor] setFill];
+	
+	if (shadow) {
+		CGSize offset = CGSizeMake(4, 3);
+		CGColorRef shadowColor = [[UIColor darkGrayColor] CGColor];
+		CGContextSetShadowWithColor(ctx, offset, 2.0, shadowColor);
+	}
+	
+	// Draw the string
+	[self.text drawInRect:textRect withFont:font];	
 }
 
 //OVERRIDE
@@ -58,7 +87,8 @@
 	CGContextSetLineWidth(ctx, 10.0);
 	
 	// Set the pen color to be gray
-	CGContextSetStrokeColorWithColor(ctx, [self.lineColor CGColor]);
+//	CGContextSetStrokeColorWithColor(ctx, [self.lineColor CGColor]);
+	[self.lineColor setStroke];
 	
 	for (float currentRadius = maxRadius; currentRadius > 0; currentRadius -= 20) {
 		// Add our shape to the drawing context
@@ -68,6 +98,8 @@
 		CGContextStrokePath(ctx);
 	}
 	
+	// Draw our secret message
+	[self drawMessage:ctx atPoint:center withShadow:YES];
 }
 
 @end

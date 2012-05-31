@@ -19,7 +19,7 @@
     // Override point for customization after application launch.
 	
 	// Create a Hypnosister view and add it to the view hierarchy
-	CGRect viewFrame = CGRectMake(160, 240, 100, 150);
+	CGRect viewFrame = [self.window bounds];
 	HypnosisterView *hypnosisterView = [[HypnosisterView alloc] initWithFrame:viewFrame andColor:[UIColor purpleColor]];
 //	[hypnosisterView setBackgroundColor:[UIColor redColor]];
 	[self.window addSubview:hypnosisterView];

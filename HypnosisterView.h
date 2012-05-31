@@ -11,6 +11,7 @@
 @interface HypnosisterView : UIView
 
 @property (strong, nonatomic) UIColor *lineColor;
+@property (strong, nonatomic) NSString *text;
 
 - (id)initWithFrame:(CGRect)frame andColor:(UIColor *)color;
 
