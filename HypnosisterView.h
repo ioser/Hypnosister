@@ -3,7 +3,7 @@
 //  Hypnosister
 //
 //  Created by Richard Millet on 5/30/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Trioser. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
