@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HypnosisterView.h"
 
-@interface HypnosisterAppDelegate : UIResponder <UIApplicationDelegate>
-
+@interface HypnosisterAppDelegate : UIResponder <UIApplicationDelegate, UIScrollViewDelegate>
+{
+	HypnosisterView *zoomingView;
+}
 @property (strong, nonatomic) UIWindow *window;
 
 @end
