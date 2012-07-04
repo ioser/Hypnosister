@@ -13,6 +13,34 @@
 @synthesize lineColor = _lineColor;
 @synthesize text = _text;
 
+- (void)setLineColor:(UIColor *)lineColor
+{
+	_lineColor = lineColor;
+	[self setNeedsDisplay];
+}
+
+//OVERRIDE
+- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+	if (motion == UIEventSubtypeMotionShake) {
+		NSLog(@"Device is shaking.");
+		if (self.lineColor == [UIColor redColor]) {
+			[self setLineColor:[UIColor blueColor]];
+		} else if (self.lineColor == [UIColor blueColor]) {
+			[self setLineColor:[UIColor redColor]];
+		} else {
+			[self setLineColor:[UIColor blueColor]];
+		}
+	}
+}
+
+//OVERRIDE
+- (BOOL)canBecomeFirstResponder
+{
+	// We need to handle "shake" events
+	return YES;
+}
+
 //OVERRIDE
 - (id)initWithFrame:(CGRect)frame
 {

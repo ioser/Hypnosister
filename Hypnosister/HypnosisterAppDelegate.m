@@ -2,7 +2,7 @@
 //  HypnosisterAppDelegate.m
 //  Hypnosister
 //
-//  Created by Sara Duckler on 5/30/12.
+//  Created by Richard Millet on 5/30/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -13,22 +13,59 @@
 
 @synthesize window = _window;
 
+//OVERRIDE
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+	return zoomingView;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 	
-	// Create a Hypnosister view and add it to the view hierarchy
-	CGRect viewFrame = [self.window bounds];
-	HypnosisterView *hypnosisterView = [[HypnosisterView alloc] initWithFrame:viewFrame andColor:[UIColor purpleColor]];
-//	[hypnosisterView setBackgroundColor:[UIColor redColor]];
-	[self.window addSubview:hypnosisterView];
+//	[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
 	
-	// Create a second Hypnosister view and add it to the view hierarchy
-	CGRect anotherViewFrame = CGRectMake(10, 10, 75, 75);
-	HypnosisterView *anotherHypnosisterView = [[HypnosisterView alloc] initWithFrame:anotherViewFrame andColor:Nil];
-//	[anotherHypnosisterView setBackgroundColor:[UIColor blueColor]];
-	[hypnosisterView addSubview:anotherHypnosisterView];
+	// Create a scroll view the size of the main window
+	CGRect windowBounds = [self.window bounds];
+	UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:windowBounds];
+	[scrollView setPagingEnabled:NO];
+	[scrollView setMinimumZoomScale:1.0];
+	[scrollView setMaximumZoomScale:5.0];
+	[scrollView setDelegate:self];
+	[self.window addSubview:scrollView];
+	
+	// Create a Hypnosister view the same size as the main window
+	// and add it to the view hierarchy.
+	CGRect viewFrame = windowBounds;
+	viewFrame.size.width *= 1;
+	viewFrame.size.height *= 1;
+	HypnosisterView *hypnosisterView = [[HypnosisterView alloc] initWithFrame:viewFrame
+																	 andColor:[UIColor purpleColor]];
+	zoomingView = hypnosisterView;
+	[scrollView addSubview:hypnosisterView];
+	
+	// Make this view the "first responder" to events
+	BOOL isFirstResponder = [hypnosisterView becomeFirstResponder];
+	if (isFirstResponder) {
+		NSLog(@"Main Hypnosister view is now the first responder.");
+	} else {
+		NSLog(@"Failed to set main hypnosister view to the first responder.");
+	}
+	
+	// Create a second Hypnosister view below the first and add it to the view hierarchy
+	CGRect anotherViewFrame = viewFrame;
+	anotherViewFrame.origin.y += viewFrame.size.height;
+	anotherViewFrame.size.height *= 1.5;
+	HypnosisterView *anotherHypnosisterView = [[HypnosisterView alloc] initWithFrame:anotherViewFrame
+																			andColor:Nil];
+//	[scrollView addSubview:anotherHypnosisterView];
+	
+	// Now set the scroll view's content size to deal with two window-size views
+	// stacked on top of each other.
+	CGSize contentSize = viewFrame.size;
+//	contentSize.height = viewFrame.size.height + anotherViewFrame.size.height;
+	[scrollView setContentSize:contentSize];
 	
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
